@@ -1,0 +1,2 @@
+bst, binary search tree
+quick sort, a sorting algorithm
