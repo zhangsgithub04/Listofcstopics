@@ -1,16 +1,18 @@
 package com.example.zhangs.listofcstopics;
 
+import android.app.NotificationManager;
 import android.content.Intent;
 import android.media.MediaPlayer;
-import android.support.v7.app.ActionBar;
+import android.support.v4.app.NotificationCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.RelativeLayout;
 
 public class MainActivity extends AppCompatActivity {
     MediaPlayer mPlayer;
@@ -27,31 +29,13 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        CSTopic [] cstopics = new CSTopic[24];
-        cstopics[0] =new CSTopic("bst", "binary search tree","");
-        cstopics[1] =new CSTopic("bs", "binary search ","");
-        cstopics[2] =new CSTopic("qs", "quick sort","");
-        cstopics[3] =new CSTopic("bst", "binary search tree","");
-        cstopics[4] =new CSTopic("bst", "binary search tree","");
-        cstopics[5] =new CSTopic("bs", "binary search ","");
-        cstopics[6] =new CSTopic("qs", "quick sort","");
-        cstopics[7] =new CSTopic("bst", "binary search tree","");
-        cstopics[8] =new CSTopic("bst", "binary search tree","");
-        cstopics[9] =new CSTopic("bs", "binary search ","");
-        cstopics[10] =new CSTopic("qs", "quick sort","");
-        cstopics[11] =new CSTopic("bst", "binary search tree","");
-        cstopics[12] =new CSTopic("bst", "binary search tree","");
-        cstopics[13] =new CSTopic("bs", "binary search ","");
-        cstopics[14] =new CSTopic("qs", "quick sort","");
-        cstopics[15] =new CSTopic("bst", "binary search tree","");
-        cstopics[16] =new CSTopic("bst", "binary search tree","");
-        cstopics[17] =new CSTopic("bs", "binary search ","");
-        cstopics[18] =new CSTopic("qs", "quick sort","");
-        cstopics[19] =new CSTopic("bst", "binary search tree","");
-        cstopics[20] =new CSTopic("qs", "quick sort","");
-        cstopics[21] =new CSTopic("bst", "binary search tree","");
-        cstopics[22] =new CSTopic("qs", "quick sort","");
-        cstopics[23] =new CSTopic("bst", "binary search tree","");
+        CSTopic[] cstopics;
+
+        dataloader.readtextfromasset(this);
+        //dataloader.hardcodedtopics();
+
+        cstopics= dataloader.allcstopics;
+
 
         cstopicArrayAdapter csadaptor = new cstopicArrayAdapter(this, R.layout.list_view_row_item, cstopics);
 
@@ -59,12 +43,15 @@ public class MainActivity extends AppCompatActivity {
         cstopicslistview.setAdapter(csadaptor);
 
         cstopicslistview.setOnItemClickListener(new topiclistener());
+
+        /*
         if(csadaptor.getCount() > 5){
             View item = csadaptor.getView(0, null, cstopicslistview);
             item.measure(0, 0);
             ViewGroup.LayoutParams params = new ViewGroup.LayoutParams(ActionBar.LayoutParams.MATCH_PARENT, (int) (5.5 * item.getMeasuredHeight()));
             cstopicslistview.setLayoutParams(params);
         }
+        */
 
         //setContentView(cstopicslistview);
 
@@ -73,8 +60,10 @@ public class MainActivity extends AppCompatActivity {
 
         lv1.setOnItemClickListener(new topiclistener());
 
+/*
         // first Button
         RelativeLayout rLayout = (RelativeLayout) findViewById(R.id.rl);
+
 
         RelativeLayout.LayoutParams lprams = new RelativeLayout.LayoutParams(
                 RelativeLayout.LayoutParams.WRAP_CONTENT,
@@ -84,7 +73,7 @@ public class MainActivity extends AppCompatActivity {
         lprams.addRule(RelativeLayout.BELOW, R.id.lv);
         //cstopicslistview.setId(1);
         rLayout.addView(cstopicslistview);
-
+*/
 
         final ImageView v = (ImageView) findViewById(R.id.iv);
 
@@ -93,8 +82,6 @@ public class MainActivity extends AppCompatActivity {
             public boolean onTouch(View arg0, MotionEvent arg1) {
                 switch (arg1.getAction()) {
                     case MotionEvent.ACTION_DOWN: {
-
-
                         Intent intent = new Intent(getApplicationContext(), CustomListViewActivity.class);
                         intent.putExtra("test", "test");
 
@@ -113,9 +100,48 @@ public class MainActivity extends AppCompatActivity {
         mPlayer.start();
 
 
+
     }
 
+    public boolean onOptionsItemSelected(MenuItem item) {
 
+        switch (item.getItemId()) {
+            case R.id.customlist:
+                Intent intent = new Intent(getApplicationContext(), moreCustomListViewActivity.class);
+                intent.putExtra("test", "test");
+
+                startActivity(intent);
+                return true;
+            case R.id.help:
+
+                NotificationCompat.Builder mBuilder =
+                        new NotificationCompat.Builder(this)
+                                .setSmallIcon(R.drawable.cat)
+                                .setContentTitle("My notification")
+                                .setContentText("Hello World!");
+
+                // Sets an ID for the notification
+                int mNotificationId = 001;
+                // Gets an instance of the NotificationManager service
+                NotificationManager mNotifyMgr =
+                        (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+                // Builds the notification and issues it.
+                mNotifyMgr.notify(mNotificationId, mBuilder.build());
+
+                return true;
+
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+
+    }
+
+    public boolean onCreateOptionsMenu(Menu menu) {
+
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.optionmenu, menu);
+        return true;
+    }
 
 
 }

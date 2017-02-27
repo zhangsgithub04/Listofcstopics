@@ -23,35 +23,79 @@ import java.util.HashMap;
  * Created by ZHANGS on 2/15/2017.
  */
 
-public class loaddata {
+public class dataloader {
+
+    public static CSTopic allcstopics[]=null;
+
+    public static void hardcodedtopics() {
+        allcstopics = new CSTopic[24];
+        allcstopics[0] = new CSTopic("bst", "binary search tree", "cat");
+        allcstopics[1] = new CSTopic("bs", "binary search ", "cat.png");
+        allcstopics[2] = new CSTopic("qs", "quick sort", "oneontalogo.png");
+        allcstopics[3] = new CSTopic("bst", "binary search tree", "oneontalogo");
+        allcstopics[4] = new CSTopic("bst", "binary search tree", "");
+        allcstopics[5] = new CSTopic("bs", "binary search ", "");
+        allcstopics[6] = new CSTopic("qs", "quick sort", "");
+        allcstopics[7] = new CSTopic("bst", "binary search tree", "");
+        allcstopics[8] = new CSTopic("bst", "binary search tree", "");
+        allcstopics[9] = new CSTopic("bs", "binary search ", "");
+        allcstopics[10] = new CSTopic("qs", "quick sort", "");
+        allcstopics[11] = new CSTopic("bst", "binary search tree", "");
+        allcstopics[12] = new CSTopic("bst", "binary search tree", "");
+        allcstopics[13] = new CSTopic("bs", "binary search ", "");
+        allcstopics[14] = new CSTopic("qs", "quick sort", "");
+        allcstopics[15] = new CSTopic("bst", "binary search tree", "");
+        allcstopics[16] = new CSTopic("bst", "binary search tree", "cat");
+        allcstopics[17] = new CSTopic("bs", "binary search ", "oneontalogo");
+        allcstopics[18] = new CSTopic("qs", "quick sort", "oneontalogo");
+        allcstopics[19] = new CSTopic("bst", "binary search tree", "cat.jpg");
+        allcstopics[20] = new CSTopic("qs", "quick sort", "");
+        allcstopics[21] = new CSTopic("bst", "binary search tree", "cat.jpg");
+        allcstopics[22] = new CSTopic("qs", "quick sort", "");
+        allcstopics[23] = new CSTopic("bst", "binary search tree", "oneontalogo.png");
+    }
 
     public static void readtextfromasset(Context c) {
         BufferedReader reader;
 
+
+
         try {
-            final InputStream file = c.getAssets().open("cstopic.txt");
+            final InputStream file = c.getAssets().open("cstopics.txt");
             reader = new BufferedReader(new InputStreamReader(file));
             String line = reader.readLine();
-            while (line != null) {
-                Log.d("StackOverflow", line);
 
-                line = reader.readLine();
-                String[] fields = line.split(", ");
+                int numofcstopics= Integer.parseInt(line);
 
-            }
+                allcstopics=new CSTopic[numofcstopics];
+
+                for( int row=0; row<numofcstopics; row++) {
+                    line = reader.readLine();
+                    String[] fields = line.split(", ");
+                    allcstopics[row]=new CSTopic();
+
+                    allcstopics[row].topicID=fields[0];
+                    allcstopics[row].topicDescription=fields[1];
+                    allcstopics[row].imgname=fields[2];
+                }
+
         } catch (IOException ioe) {
             ioe.printStackTrace();
         }
+
+
     }
 
 
     static public String loadJSONFromAsset(Context c) {
         String json = null;
         try {
-            InputStream is = c.getAssets().open("yourfilename.json");
+            InputStream is = c.getAssets().open("cstopics.json");
             int size = is.available();
             byte[] buffer = new byte[size];
             is.read(buffer);
+
+
             is.close();
             json = new String(buffer, "UTF-8");
         } catch (IOException ex) {

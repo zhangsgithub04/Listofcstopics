@@ -40,7 +40,8 @@ public class cstopicArrayAdapter extends ArrayAdapter<CSTopic> {
 
         TextView cstopicdesc=(TextView) convertView.findViewById(R.id.textViewItem);
         cstopicdesc.setText(onecstopic.topicDescription);
-        cstopicdesc.setTag(onecstopic.topicID);
+        //cstopicdesc.setTag(onecstopic.topicID);
+        cstopicdesc.setTag(position);
         return convertView;
     }
 }

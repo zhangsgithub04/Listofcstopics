@@ -25,7 +25,7 @@ public class topiclistener implements AdapterView.OnItemClickListener{
         //Toast.makeText(context, "Bingo,   TopicId: "+ listItemId + " Topic Description: "+ listItemText,Toast.LENGTH_SHORT).show();
 
         Intent intent = new Intent(context, DetailedTopicActivity.class);
-        intent.putExtra(EXTRA_MESSAGE, listItemId);
+        intent.putExtra("order", listItemId);
 
         context.startActivity(intent);
 

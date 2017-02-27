@@ -6,14 +6,11 @@ package com.example.zhangs.listofcstopics;
 public class CSTopic {
 
     public String topicID;
-
     public String topicDescription;
-
     public String imgname;
 
     //constructor
     public CSTopic() {
-
      }
 
     // overloaded constructor
